@@ -10,12 +10,12 @@ public class Game {
                 "Для выхода используйте комманду /exit");
         try(Scanner scanner = new Scanner(System.in)) {
             String command = scanner.nextLine();
-            if (command.equals("start")) {
+            if (command.equals("/start")) {
                 System.out.println("Загадано слово, которое содержит "
                         + numberOfLetters + " букв.\n" +
                         "Предположите букву.");
             }
-            if (command.equals("exit")) {
+            if (command.equals("/exit")) {
                 exit();
             }
         } catch (Exception e) {
@@ -32,5 +32,11 @@ public class Game {
                 System.out.println("Введите только одну букву!");
             }
         }
+    }
+    String secretWord() {
+        String[] wordsArray = {"Солнце", "Молоко", "Компьютер",
+        "Голова", "Рисунок", "Кенгуру", "Акробат", "Гравюра", "Мальчик", "Пингвин"};
+        int randomNumberOfWord = (int) (Math.random() * 10);
+        return wordsArray[randomNumberOfWord];
     }
 }
