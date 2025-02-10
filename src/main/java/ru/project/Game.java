@@ -28,7 +28,7 @@ public class Game {
                     System.out.println(Arrays.toString(hiddenWord));
                     if (guessLetter(i, word) == null) {
                         System.out.println("Такой буквы в слове нет!");
-                        return;
+                        continue;
                     }
                     for (int j = 0; j < guessLetter(i, word).size(); j++) {
                         int number = guessLetter(i, word).get(j);
@@ -62,8 +62,8 @@ public class Game {
 
     }
     String secretWord() {
-        String[] wordsArray = {"Солнце", "Молоко", "Компьютер",
-        "Голова", "Рисунок", "Кенгуру", "Акробат", "Гравюра", "Мальчик", "Пингвин"};
+        String[] wordsArray = {"солнце", "молоко", "компьютер",
+        "голова", "рисунок", "кенгуру", "акробат", "гравюра", "мальчик", "пингвин"};
         int randomNumberOfWord = (int) (Math.random() * 10);
         return wordsArray[randomNumberOfWord];
     }
