@@ -1,5 +1,8 @@
 package ru.project;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -11,9 +14,28 @@ public class Game {
         try(Scanner scanner = new Scanner(System.in)) {
             String command = scanner.nextLine();
             if (command.equals("/start")) {
+                String word = secretWord();
+                char[] actualWord = word.toCharArray();
+                char[] hiddenWord = new char[word.length()];
+                for (int i = 0; i < hiddenWord.length; i++) {
+                    hiddenWord[i] = '*';
+                }
                 System.out.println("Загадано слово, которое содержит "
                         + numberOfLetters + " букв.\n" +
                         "Предположите букву.");
+                while (true) {
+                    char i = scanner.nextLine().charAt(0);
+                    System.out.println(Arrays.toString(hiddenWord));
+                    if (guessLetter(i, word) == null) {
+                        System.out.println("Такой буквы в слове нет!");
+                        return;
+                    }
+                    for (int j = 0; j < guessLetter(i, word).size(); j++) {
+                        int number = guessLetter(i, word).get(j);
+                        hiddenWord[number] = actualWord[number];
+                    }
+                    System.out.println(Arrays.toString(hiddenWord));
+                }
             }
             if (command.equals("/exit")) {
                 exit();
@@ -25,13 +47,19 @@ public class Game {
     void exit() {
 
     }
-    void guessLetter() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            String guessWord = scanner.nextLine();
-            while (guessWord.length() != 1) {
-                System.out.println("Введите только одну букву!");
+    List<Integer> guessLetter(char letter, String word) {
+        boolean isLetterExist = false;
+        List<Integer> indexesOfLetters = new ArrayList<>();
+        for (int i = 0; i < word.length(); i++) {
+            if (letter == word.charAt(i)) {
+                indexesOfLetters.add(i);
+                isLetterExist = true;
             }
         }
+        if (isLetterExist) {
+            return indexesOfLetters;
+        } else return null;
+
     }
     String secretWord() {
         String[] wordsArray = {"Солнце", "Молоко", "Компьютер",
