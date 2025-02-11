@@ -15,6 +15,7 @@ public class Game {
             String command = scanner.nextLine();
             if (command.equals("/start")) {
                 String word = secretWord();
+                int numbersOfErrors = 0;
                 char[] actualWord = word.toCharArray();
                 char[] hiddenWord = new char[word.length()];
                 for (int i = 0; i < hiddenWord.length; i++) {
@@ -28,6 +29,8 @@ public class Game {
                     System.out.println(Arrays.toString(hiddenWord));
                     if (guessLetter(i, word) == null) {
                         System.out.println("Такой буквы в слове нет!");
+                        numbersOfErrors++;
+                        drawGallows(numbersOfErrors);
                         continue;
                     }
                     for (int j = 0; j < guessLetter(i, word).size(); j++) {
@@ -66,5 +69,57 @@ public class Game {
         "голова", "рисунок", "кенгуру", "акробат", "гравюра", "мальчик", "пингвин"};
         int randomNumberOfWord = (int) (Math.random() * 10);
         return wordsArray[randomNumberOfWord];
+    }
+    void drawGallows(int numberOfErrors) {
+        if (numberOfErrors == 1) {
+            System.out.println(" |\n" +
+                               " |\n" +
+                               " |\n" +
+                               " |\n" +
+                               " |\n" +
+                               "/|\\");
+        }
+        if (numberOfErrors == 2) {
+            System.out.println(" |------\n" +
+                               " |\n" +
+                               " |\n" +
+                               " |\n" +
+                               " |\n" +
+                               "/|\\");
+        }
+        if (numberOfErrors == 3) {
+            System.out.println(" |------\n" +
+                               " |     |\n" +
+                               " |     |\n" +
+                               " |\n" +
+                               " |\n" +
+                               "/|\\");
+        }
+        if (numberOfErrors == 4) {
+            System.out.println(" |------\n" +
+                               " |     |\n" +
+                               " |     |\n" +
+                               " |     o\n" +
+                               " |\n" +
+                               "/|\\");
+        }
+        if (numberOfErrors == 5) {
+            System.out.println(" |------\n" +
+                               " |     |\n" +
+                               " |     |\n" +
+                               " |     o\n" +
+                               " |    /|\\\n" +
+                               "/|\\");
+        }
+        if (numberOfErrors == 6) {
+            System.out.println(" |------\n" +
+                               " |     |\n" +
+                               " |     |\n" +
+                               " |     o\n" +
+                               " |    /|\\\n" +
+                               "/|\\  /\\\n" +
+                    "Вас повесили!");
+            exit();
+        }
     }
 }
