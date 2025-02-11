@@ -26,7 +26,7 @@ public class Game {
                         "Предположите букву.");
                 while (true) {
                     char i = scanner.nextLine().charAt(0);
-                    System.out.println(Arrays.toString(hiddenWord));
+                    //System.out.println(Arrays.toString(hiddenWord));
                     if (guessLetter(i, word) == null) {
                         System.out.println("Такой буквы в слове нет!");
                         numbersOfErrors++;
@@ -37,7 +37,8 @@ public class Game {
                         int number = guessLetter(i, word).get(j);
                         hiddenWord[number] = actualWord[number];
                     }
-                    System.out.println(Arrays.toString(hiddenWord));
+                    wordByLetters(hiddenWord);
+                    //System.out.println(Arrays.toString(hiddenWord));
                 }
             }
             if (command.equals("/exit")) {
@@ -70,6 +71,14 @@ public class Game {
         int randomNumberOfWord = (int) (Math.random() * 10);
         return wordsArray[randomNumberOfWord];
     }
+    void wordByLetters(char[] hiddenWord) {
+        for (int i = 0; i < hiddenWord.length; i++) {
+            if (i == hiddenWord.length - 1) {
+                System.out.println(hiddenWord[i]);
+            } else System.out.printf(hiddenWord[i] + " ");
+        }
+    }
+
     void drawGallows(int numberOfErrors) {
         if (numberOfErrors == 1) {
             System.out.println(" |\n" +
@@ -117,7 +126,7 @@ public class Game {
                                " |     |\n" +
                                " |     o\n" +
                                " |    /|\\\n" +
-                               "/|\\  /\\\n" +
+                               "/|\\   /\\\n" +
                     "Вас повесили!");
             exit();
         }
