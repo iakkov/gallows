@@ -8,9 +8,10 @@ import java.util.Scanner;
 public class Game {
     int numberOfLetters;
     void start() {
-        System.out.println("Игра \"Виселица\" запущена. \n" +
-                "Для начала новой игры используйте комманду /start\n" +
-                "Для выхода используйте комманду /exit");
+        System.out.println("""
+                Игра "Виселица" запущена.\s
+                Для начала новой игры используйте комманду /start
+                Для выхода используйте комманду /exit""");
         try(Scanner scanner = new Scanner(System.in)) {
             String command = scanner.nextLine();
             if (command.equals("/start")) {
@@ -18,9 +19,7 @@ public class Game {
                 int numbersOfErrors = 0;
                 char[] actualWord = word.toCharArray();
                 char[] hiddenWord = new char[word.length()];
-                for (int i = 0; i < hiddenWord.length; i++) {
-                    hiddenWord[i] = '*';
-                }
+                Arrays.fill(hiddenWord, '*');
                 System.out.println("Загадано слово, которое содержит "
                         + numberOfLetters + " букв.\n" +
                         "Предположите букву.");
