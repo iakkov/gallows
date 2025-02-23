@@ -66,6 +66,7 @@ public class Game {
         String[] wordsArray = {"солнце", "молоко", "компьютер",
         "голова", "рисунок", "кенгуру", "акробат", "гравюра", "мальчик", "пингвин"};
         int randomNumberOfWord = (int) (Math.random() * 10);
+        numberOfLetters = wordsArray[randomNumberOfWord].length();
         return wordsArray[randomNumberOfWord];
     }
     void wordByLetters(char[] hiddenWord) {
