@@ -42,6 +42,10 @@ public class Game {
                         hiddenWord[number] = actualWord[number];
                     }
                     wordByLetters(hiddenWord);
+                    if (!Arrays.toString(hiddenWord).contains("*")) {
+                        System.out.println("Вы победили с " + numbersOfErrors + " ошибками!");
+                        exit();
+                    }
                 }
             }
             if (command.equals("/exit")) {
@@ -67,13 +71,6 @@ public class Game {
             return indexesOfLetters;
         } else return null;
 
-    }
-    String secretWord() {
-        String[] wordsArray = {"солнце", "молоко", "компьютер",
-        "голова", "рисунок", "кенгуру", "акробат", "гравюра", "мальчик", "пингвин"};
-        int randomNumberOfWord = (int) (Math.random() * 10);
-        numberOfLetters = wordsArray[randomNumberOfWord].length();
-        return wordsArray[randomNumberOfWord];
     }
     void wordByLetters(char[] hiddenWord) {
         for (int i = 0; i < hiddenWord.length; i++) {
