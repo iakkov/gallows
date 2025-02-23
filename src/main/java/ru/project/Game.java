@@ -46,7 +46,7 @@ public class Game {
         }
     }
     void exit() {
-
+        System.exit(0);
     }
     List<Integer> guessLetter(char letter, String word) {
         boolean isLetterExist = false;
