@@ -1,5 +1,6 @@
 package ru.project;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,11 @@ import java.util.Scanner;
 
 public class Game {
     int numberOfLetters;
+    private DatabaseManager databaseManager;
+
+    public Game(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
+    }
     void start() {
         System.out.println("""
                 Игра "Виселица" запущена.\s
@@ -15,13 +21,13 @@ public class Game {
         try(Scanner scanner = new Scanner(System.in)) {
             String command = scanner.nextLine();
             if (command.equals("/start")) {
-                String word = secretWord();
+                String word = databaseManager.secretWord();
                 int numbersOfErrors = 0;
                 char[] actualWord = word.toCharArray();
-                char[] hiddenWord = new char[word.length()];
+                char[] hiddenWord = new char[databaseManager.getNumberOfLetters()];
                 Arrays.fill(hiddenWord, '*');
                 System.out.println("Загадано слово, которое содержит "
-                        + numberOfLetters + " букв.\n" +
+                        + databaseManager.getNumberOfLetters() + " букв.\n" +
                         "Предположите букву.");
                 while (true) {
                     char i = scanner.nextLine().charAt(0);
