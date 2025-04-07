@@ -1,14 +1,12 @@
 package ru.project;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-    int numberOfLetters;
-    private DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager;
 
     public Game(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
@@ -30,13 +28,13 @@ public class Game {
                 int lvl;
                 while (true) {
                     lvl = scanner.nextInt();
-                    if (lvl != 1 || lvl != 2 || lvl != 3) {
-                        System.out.println("Выберите корректный уровень сложности");
-                    } else {
+                    if (lvl == 1 || lvl == 2 || lvl == 3) {
                         break;
+                    } else {
+                        System.out.println("Выберите корректный уровень сложности");
                     }
                 }
-                String word = databaseManager.secretWord(lvl);
+                String word = databaseManager.getSecretWord(lvl);
                 int numbersOfErrors = 0;
                 char[] actualWord = word.toCharArray();
                 char[] hiddenWord = new char[databaseManager.getNumberOfLetters()];
@@ -44,8 +42,18 @@ public class Game {
                 System.out.println("Загадано слово, которое содержит "
                         + databaseManager.getNumberOfLetters() + " букв.\n" +
                         "Предположите букву.");
+
                 while (true) {
-                    char i = scanner.nextLine().charAt(0);
+                    String input = scanner.nextLine().trim().toLowerCase();
+                    if (input.isEmpty()) {
+                        System.out.println("Введите хотя бы одну букву.");
+                        continue;
+                    }
+                    if (!input.matches("[а-яё]")) {
+                        System.out.println("Введите одну русскую букву.");
+                        continue;
+                    }
+                    char i = input.charAt(0);
                     if (guessLetter(i, word) == null) {
                         System.out.println("Такой буквы в слове нет!");
                         numbersOfErrors++;

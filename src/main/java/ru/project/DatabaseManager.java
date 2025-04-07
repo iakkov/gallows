@@ -3,21 +3,23 @@ package ru.project;
 import java.sql.*;
 
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String DB_URL = "jdbc:sqlite:hangman.db";
     private int numberOfLetters = 0;
 
     public DatabaseManager() {
-        try (Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+        try (Connection connection = DriverManager.getConnection(DB_URL);
              Statement stmt = connection.createStatement()) {
+
             String createTableSQL = """
-                   CREATE TABLE IF NOT EXISTS wordsForGallows (
-                        id SERIAL PRIMARY KEY,
-                        word VARCHAR(255) NOT NULL,
+                   CREATE TABLE IF NOT EXISTS wordsForHangman (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        word TEXT NOT NULL,
                         lvl INTEGER NOT NULL
                             );
                    """;
+            stmt.execute(createTableSQL);
             String addWords = """
-                    INSERT INTO wordsForGallows (word, lvl) VALUES
+                    INSERT INTO wordsForHangman (word, lvl) VALUES
             ('абрикос', 1), ('бабочка', 1), ('верблюд', 2), ('гвоздика', 2),
             ('деревня', 1), ('ежевика', 1), ('жасмин', 2), ('зебра', 1),
             ('игрушка', 1), ('йогурт', 2), ('капуста', 1), ('лампа', 1),
@@ -32,23 +34,26 @@ public class DatabaseManager {
             ('собака', 1), ('трактор', 2), ('узор', 1), ('флаг', 1),
             ('хлеб', 1), ('чайник', 2);
             """;
-            stmt.execute(createTableSQL);
-            stmt.executeUpdate(addWords);
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM wordsForHangman;");
+            if (rs.next() && rs.getInt(1) == 0) {
+                stmt.executeUpdate(addWords);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public String secretWord(int level) {
-        String query = "SELECT word FROM wordsForGallows WHERE lvl = ? ORDER BY RANDOM() LIMIT 1;";
+    public String getSecretWord(int level) {
+        String query = "SELECT word FROM wordsForHangman WHERE lvl = ? ORDER BY RANDOM() LIMIT 1;";
         String word = null;
 
-        try (Connection connection = DriverManager.getConnection(DB_URL, "postgres", "postgres");
+        try (Connection connection = DriverManager.getConnection(DB_URL);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, level);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     word = resultSet.getString("word");
+                    numberOfLetters = word.length();
                 } else {
                     throw new RuntimeException("Нет слов для выбранного уровня сложности");
                 }
