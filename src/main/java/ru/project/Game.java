@@ -21,7 +21,22 @@ public class Game {
         try(Scanner scanner = new Scanner(System.in)) {
             String command = scanner.nextLine();
             if (command.equals("/start")) {
-                String word = databaseManager.secretWord();
+                System.out.println("""
+                        Выберите уровень сложности:
+                        1 - легкий уровень
+                        2 - средний уровень
+                        3 - сложный уровень
+                        """);
+                int lvl;
+                while (true) {
+                    lvl = scanner.nextInt();
+                    if (lvl != 1 || lvl != 2 || lvl != 3) {
+                        System.out.println("Выберите корректный уровень сложности");
+                    } else {
+                        break;
+                    }
+                }
+                String word = databaseManager.secretWord(lvl);
                 int numbersOfErrors = 0;
                 char[] actualWord = word.toCharArray();
                 char[] hiddenWord = new char[databaseManager.getNumberOfLetters()];
